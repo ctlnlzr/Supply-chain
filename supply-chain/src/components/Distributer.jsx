@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
 import { FormControl, FormLabel } from '@mui/material';
 import { useState } from "react";
+import { transport, store } from '../utils/ContractAdapter';
 
 const role = (
   <Box
@@ -18,7 +19,7 @@ const role = (
   </Box>
 );
 
-export default function Distributer() {
+export default function Distributer(props) {
   const [destinationStore, setDestinationStore] = useState('');
   const [batchTransport, setBatchTransport] = useState(0);
   const [destination, setDestination] = useState('');
@@ -26,20 +27,20 @@ export default function Distributer() {
   const [source, setSource] = useState('');
 
   function _transport() {
-    transport(batchTransport, source, destination);
+    transport(props.address, batchTransport, source, destination);
     setBatchTransport('');
     setDestination('');
     setSource('');
   }
 
   function _store() {
-    store(batchStore, destinationStore);
+    store(props.address, batchStore, destinationStore);
     setDestinationStore('');
     setBatchStore('');
   }
 
   return (
-    <Box sx={{ minWidth: 700 }}>
+    <Box sx={{ minWidth: 1000 }}>
       <Card variant="outlined" sx={{display:"flex", flexDirection:"column", justifyContent: "center", alignItems:"center"}}>
     <CardContent>
       <Typography variant="h2" component="div" color={"#C1FF72"}>
@@ -47,20 +48,20 @@ export default function Distributer() {
       </Typography>
     </CardContent>
     <CardActions sx={{display:"flex", flexDirection: "column", alignItems: 'space-between', m: '2em'}}>
-      <FormControl sx={{display:"flex", flexDirection: "row", justifyContent: 'space-between', border: 1,  borderRadius: 1, borderColor: "#C1FF72", p: '2em'}}>
-        <div>
+      <FormControl sx={{display:"flex", flexDirection: "row", justifyContent: 'space-between', border: 1,  borderRadius: 1, borderColor: "#C1FF72", p: '2em', m: '0.5em', minWidth: 1000}}>
+        <div style={{display: 'flex', flexDirection:'column'}}>
           <FormLabel> Enter batch's Id </FormLabel>
           <TextField type="text" variant='filled' size="small"
           onChange={(e) => setBatchTransport(e.target.value)}
           value={batchTransport}></TextField>
         </div>
-        <div>
+        <div style={{display: 'flex', flexDirection:'column'}}>
           <FormLabel> Enter source address </FormLabel>
           <TextField type="text" variant='filled' size="small"
           onChange={(e) => setSource(e.target.value)}
           value={source}></TextField>
         </div>
-        <div>
+        <div style={{display: 'flex', flexDirection:'column'}}>
           <FormLabel> Enter destination address </FormLabel>
           <TextField type="text" variant='filled' size="small"
           onChange={(e) => setDestination(e.target.value)}
@@ -69,14 +70,14 @@ export default function Distributer() {
         <Button variant="contained" onClick={_transport}>Transport</Button>
       </FormControl>
       
-      <FormControl sx={{display:"flex", flexDirection: "row", justifyContent: 'space-between', border: 1,  borderRadius: 1, borderColor: "#C1FF72", p: '2em'}}>
-        <div>
+      <FormControl sx={{display:"flex", flexDirection: "row", justifyContent: 'space-between', border: 1,  borderRadius: 1, borderColor: "#C1FF72", p: '2em', m: '0.5em', minWidth: 1000}}>
+        <div style={{display: 'flex', flexDirection:'column'}}>
           <FormLabel> Enter batch's Id </FormLabel>
           <TextField type="text" variant='filled' size="small"
           onChange={(e) => setBatchStore(e.target.value)}
           value={batchStore}></TextField>
         </div>
-        <div>
+        <div style={{display: 'flex', flexDirection:'column'}}>
           <FormLabel> Enter destination </FormLabel>
           <TextField type="text" variant='filled' size="small"
           onChange={(e) => setDestinationStore(e.target.value)}

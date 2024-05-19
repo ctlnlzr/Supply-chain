@@ -5,7 +5,11 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import { useState } from "react";
+import { FormControl } from '@mui/material';
+import { retrieveStoreEventsByAddress } from '../utils/ContractAdapter';
+import { enhanceStoringEvents } from '../utils/EnhanceData';
+import { renderEvent } from '../utils/RenderingUtils';
 const role = (
   <Box
     component="span"
@@ -15,23 +19,48 @@ const role = (
   </Box>
 );
 
-const card = (
-  <React.Fragment>
-    <CardContent>
-      <Typography variant="h2" component="div" color={"#C1FF72"}>
-        Hello, {role}!
-      </Typography>
-    </CardContent>
-    <CardActions>
-      <Button size="small">Learn More</Button>
-    </CardActions>
-  </React.Fragment>
-);
 
-export default function Warehouse() {
+export default function Warehouse(props) {
+  const [events, setEvents] = useState([]);
+
+  async function _retrieveStoreEvents() {
+    const contractEvents = await retrieveStoreEventsByAddress(props.address);
+    const enhancedEvents = await enhanceStoringEvents(contractEvents);
+
+    setEvents(enhancedEvents);
+  }
+
   return (
-    <Box sx={{ minWidth: 700 }}>
-      <Card variant="outlined" sx={{display:"flex", flexDirection:"column", justifyContent: "center", alignItems:"center"}}>{card}</Card>
+    <Box sx={{ minWidth: 1500, display: "flex", flexDirection: "row", justifyContent: 'space-evenly' }}>
+      <Card variant="outlined" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <CardContent>
+          <Typography variant="h2" component="div" color={"#C1FF72"}>
+            Hello, {role}!
+          </Typography>
+        </CardContent>
+        <CardActions sx={{ display: "flex", flexDirection: "column", alignItems: 'space-between', m: '2em' }}>
+          <FormControl sx={{ display: "flex", flexDirection: "row", justifyContent: 'center', border: 1, borderRadius: 1, borderColor: "#C1FF72", p: '2em', minWidth: 600, m: '0.5em' }}>
+            <Button variant="contained" onClick={_retrieveStoreEvents}>Retrieve Storing History</Button>
+          </FormControl>
+        </CardActions>
+      </Card>
+
+      <Card variant="outlined" sx={{ display: "flex", flexDirection:"column", justifyContent: "flex-start", alignItems: "center", minWidth: '1500' }}>
+        <CardContent sx={{ minWidth: '1500', display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", px:'5em' }}>
+          <Typography variant="h2" component="div" color={"#C1FF72"} sx={{mb: "1em"}}>
+            Search Results
+            </Typography>
+            <Typography variant='body1' component="div">
+            <div style= {{border: 1, borderRadius: 1, borderColor: "#C1FF72", p: '2em', minWidth: "1500"}}> 
+            {events.length > 0 ? (
+                events.map(renderEvent)
+              ) : (
+                <div>No events found.</div>
+              )}
+            </div>
+          </Typography>
+        </CardContent>
+      </Card>
     </Box>
   );
 }

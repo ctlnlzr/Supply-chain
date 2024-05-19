@@ -15,7 +15,7 @@ import Store from './components/Store';
 import { useState, useEffect } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { getUserRole } from './utils/ContractAdapter';
-import { formatBalance, formatChainAsNum } from './utils/ContractAdapter';
+import { formatBalance } from './utils/ContractAdapter';
 
 
 function ScrollTop(props){
@@ -133,14 +133,14 @@ function App(props) {
           }}
         >
           <Box sx={{ gridArea: 'main',}}>
+            {role === "PESTICIDE_SELLER" && <PesticideSeller address={wallet.accounts[0]}/>}
+            {role === "ADMINISTRATOR" && <Administrator address={wallet.accounts[0]}/>}
+            {role === "DISTRIBUTER" && <Distributer address={wallet.accounts[0]}/>}            
+            {role === "SEED_SELLER" && <SeedSeller address={wallet.accounts[0]}/>}
+            {role === "WAREHOUSE" && <Warehouse address={wallet.accounts[0]}/>}
+            {role === "FARMER" && <Farmer address={wallet.accounts[0]}/>}
             {role === "CLIENT" && <Client address={wallet.accounts[0]}/>}
-            {role === "PESTICIDE_SELLER" && <PesticideSeller/>}
-            {role === "ADMINISTRATOR" && <Administrator/>}
-            {role === "DISTRIBUTER" && <Distributer/>}
-            {role === "SEED_SELLER" && <SeedSeller/>}
-            {role === "WAREHOURSE" && <Warehouse/>}
-            {role === "FARMER" && <Farmer/>}
-            {role === "STORE" && <Store/>}
+            {role === "STORE" && <Store address={wallet.accounts[0]}/>}
            </Box>
         </Box>
       <Container sx={{display:"flex", justifyContent: "center", alignItems:"center", height: "100%", width: "100%"}}>
