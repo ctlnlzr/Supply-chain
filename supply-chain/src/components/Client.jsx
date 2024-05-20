@@ -34,7 +34,7 @@ export default function Client(props) {
   
   async function _retrieveGerminateSeedsEvents() {
     const contractEvents = await retrieveGerminateSeedsEvents(batchId, props.chainId);
-    const enhancedEvents = await enhanceGerminateSeedsEvents(contractEvents);
+    const enhancedEvents = await enhanceGerminateSeedsEvents(contractEvents, props.chainId);
     
     setEvents(enhancedEvents);
     setBatchId(0);
@@ -42,7 +42,7 @@ export default function Client(props) {
 
   async function _retrieveStimulateEvents() {
     const contractEvents = await retrieveStimulateEvents(batchId, props.chainId);
-    const enhancedEvents = await enhanceStimulateEvents(contractEvents);
+    const enhancedEvents = await enhanceStimulateEvents(contractEvents, props.chainId);
 
     setEvents(enhancedEvents);
     setBatchId(0);
@@ -50,7 +50,7 @@ export default function Client(props) {
 
   async function _retrieveTransportEvents() {
     const contractEvents = await retrieveTransportEvents(batchId, props.chainId);
-    const enhancedEvents = await enhanceTransportEvents(contractEvents);
+    const enhancedEvents = await enhanceTransportEvents(contractEvents, props.chainId);
 
     setEvents(enhancedEvents);
     setBatchId(0);
@@ -58,7 +58,7 @@ export default function Client(props) {
 
   async function _retrieveBuySeedsEvents() {
     const contractEvents = await retrieveBuySeedsEvents(batchId, props.chainId);
-    const enhancedEvents = await enhanceBuySeedsEvents(contractEvents);
+    const enhancedEvents = await enhanceBuySeedsEvents(contractEvents, props.chainId);
 
     setEvents(enhancedEvents);
     setBatchId(0);
@@ -66,7 +66,7 @@ export default function Client(props) {
 
   async function _retrieveStoringEvents() {
     const contractEvents = await retrieveStoringEvents(batchId, props.chainId);
-    const enhancedEvents = await enhanceStoringEvents(contractEvents);
+    const enhancedEvents = await enhanceStoringEvents(contractEvents, props.chainId);
 
     setEvents(enhancedEvents);
     setBatchId(0);
@@ -74,7 +74,7 @@ export default function Client(props) {
 
   async function _retrieveHarvestEvents() {
     const contractEvents = await retrieveHarvestEvents(batchId, props.chainId);
-    const enhancedEvents = await enhanceHarvestEvents(contractEvents);
+    const enhancedEvents = await enhanceHarvestEvents(contractEvents, props.chainId);
 
     setEvents(enhancedEvents);
     setBatchId(0);
@@ -82,7 +82,7 @@ export default function Client(props) {
 
   async function _retrieveDisplayEvents() {
     const contractEvents = await retrieveDisplayEvents(batchId, props.chainId);
-    const enhancedEvents = await enhanceDisplayEvents(contractEvents);
+    const enhancedEvents = await enhanceDisplayEvents(contractEvents, props.chainId);
 
     setEvents(enhancedEvents);
     setBatchId(0);
@@ -90,7 +90,7 @@ export default function Client(props) {
 
   async function _retrievePlantEvents() {
     const contractEvents = await retrievePlantEvents(batchId, props.chainId);
-    const enhancedEvents = await enhancePlantEvents(contractEvents);
+    const enhancedEvents = await enhancePlantEvents(contractEvents, props.chainId);
 
     setEvents(enhancedEvents);
     setBatchId(0);

@@ -26,7 +26,7 @@ export default function SeedSeller(props) {
 
   async function _retrieveBuySeedsEvents() {
     const contractEvents = await retrieveBuySeedsEventsByAddress(props.address, props.chainId);    
-    const enhancedEvents = await enhanceBuySeedsEvents(contractEvents);
+    const enhancedEvents = await enhanceBuySeedsEvents(contractEvents, props.chainId);
     
     setEvents(enhancedEvents);
   }

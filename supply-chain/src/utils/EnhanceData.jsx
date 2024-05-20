@@ -3,10 +3,10 @@ import {
     retrieveSeedSeller
   } from '../utils/ContractAdapter';
 
-export async function enhanceGerminateSeedsEvents(events) {
+export async function enhanceGerminateSeedsEvents(events, chainId) {
     const enhancedEvents = await Promise.all(events.map(async event => {
       let enhancedEvent = new Map();
-      enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer)));
+      enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer, chainId)));
       enhancedEvent.set('Germination Date', new Date(Number(event.returnValues.date) * 1000).toLocaleString());
 
       return enhancedEvent;
@@ -14,12 +14,12 @@ export async function enhanceGerminateSeedsEvents(events) {
     return enhancedEvents;
 }
 
-export async function enhanceStimulateEvents(events) {
+export async function enhanceStimulateEvents(events, chainId) {
     const enhancedEvents = await Promise.all(events.map(async event => {
         let enhancedEvent = new Map();
 
-        enhancedEvent.set('Pesticide Seller', enhanceActor(await retrievePesticideSeller(event.returnValues.pesticideSeller)));
-        enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer)));
+        enhancedEvent.set('Pesticide Seller', enhanceActor(await retrievePesticideSeller(event.returnValues.pesticideSeller, chainId)));
+        enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer, chainId)));
         enhancedEvent.set('Stimulation Date', new Date(Number(event.returnValues.date) * 1000).toLocaleString());
   
         return enhancedEvent;
@@ -27,12 +27,12 @@ export async function enhanceStimulateEvents(events) {
       return enhancedEvents;
   }
 
-export async function enhanceTransportEvents(events) {
+export async function enhanceTransportEvents(events, chainId) {
     const enhancedEvents = await Promise.all(events.map(async event => {
         let enhancedEvent = new Map();
-        enhancedEvent.set('Distributer', enhanceActor(await retrieveDistributer(event.returnValues.distributer)));
-        enhancedEvent.set('Source', enhanceActor(await retrieveSource(event.returnValues.from)));
-        enhancedEvent.set('Destination', enhanceActor(await retrieveDestination(event.returnValues.to)));
+        enhancedEvent.set('Distributer', enhanceActor(await retrieveDistributer(event.returnValues.distributer, chainId)));
+        enhancedEvent.set('Source', enhanceActor(await retrieveSource(event.returnValues.from, chainId)));
+        enhancedEvent.set('Destination', enhanceActor(await retrieveDestination(event.returnValues.to, chainId)));
 
         enhancedEvent.set('Pickup Date', new Date(Number(event.returnValues.date) * 1000).toLocaleString());
   
@@ -41,11 +41,11 @@ export async function enhanceTransportEvents(events) {
       return enhancedEvents;
   }
 
- export async function enhanceBuySeedsEvents(events) {
+ export async function enhanceBuySeedsEvents(events, chainId) {
     const enhancedEvents = await Promise.all(events.map(async event => {
         let enhancedEvent = new Map();
-        enhancedEvent.set('Seed Seller', enhanceActor(await retrieveSeedSeller(event.returnValues.seedSeller)));
-        enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer)));
+        enhancedEvent.set('Seed Seller', enhanceActor(await retrieveSeedSeller(event.returnValues.seedSeller, chainId)));
+        enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer, chainId)));
 
         enhancedEvent.set('Purchase Date', new Date(Number(event.returnValues.date) * 1000).toLocaleString());
   
@@ -54,10 +54,10 @@ export async function enhanceTransportEvents(events) {
       return enhancedEvents;
   }
 
- export async function enhanceStoringEvents(events) {
+ export async function enhanceStoringEvents(events, chainId) {
     const enhancedEvents = await Promise.all(events.map(async event => {
         let enhancedEvent = new Map();
-        enhancedEvent.set('Location', enhanceActor(await retrieveDestination(event.returnValues.location)));
+        enhancedEvent.set('Location', enhanceActor(await retrieveDestination(event.returnValues.location, chainId)));
 
         enhancedEvent.set('Storage Date', new Date(Number(event.returnValues.date) * 1000).toLocaleString());
   
@@ -66,10 +66,10 @@ export async function enhanceTransportEvents(events) {
       return enhancedEvents;
   }
 
-export async function enhanceHarvestEvents(events) {
+export async function enhanceHarvestEvents(events, chainId) {
     const enhancedEvents = await Promise.all(events.map(async event => {
         let enhancedEvent = new Map();
-        enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer)));
+        enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer, chainId)));
 
         enhancedEvent.set('Harvest Date', new Date(Number(event.returnValues.date) * 1000).toLocaleString());
   
@@ -78,10 +78,10 @@ export async function enhanceHarvestEvents(events) {
       return enhancedEvents;
   }
 
-export async function enhanceDisplayEvents(events) {
+export async function enhanceDisplayEvents(events, chainId) {
     const enhancedEvents = await Promise.all(events.map(async event => {
         let enhancedEvent = new Map();
-        enhancedEvent.set('Store', enhanceActor(await retrieveStore(event.returnValues.store)));
+        enhancedEvent.set('Store', enhanceActor(await retrieveStore(event.returnValues.store, chainId)));
 
         enhancedEvent.set('Display Date', new Date(Number(event.returnValues.date) * 1000).toLocaleString());
   
@@ -90,10 +90,10 @@ export async function enhanceDisplayEvents(events) {
       return enhancedEvents;
   }
 
-export  async function enhancePlantEvents(events) {
+export  async function enhancePlantEvents(events, chainId) {
     const enhancedEvents = await Promise.all(events.map(async event => {
         let enhancedEvent = new Map();
-        enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer)));
+        enhancedEvent.set('Farmer', enhanceActor(await retrieveFarmer(event.returnValues.farmer, chainId)));
 
         enhancedEvent.set('Planting Date', new Date(Number(event.returnValues.date) * 1000).toLocaleString());
   
@@ -102,17 +102,17 @@ export  async function enhancePlantEvents(events) {
       return enhancedEvents;
   }
 
-  async function retrieveSource(address) {
-    return retrieveFarmer(address).then(async (farmer) => {
+  async function retrieveSource(address, chainId) {
+    return retrieveFarmer(address, chainId).then(async (farmer) => {
       if (farmer.isActive == true) return farmer;
-      else return retrieveWarehouse(address);
+      else return retrieveWarehouse(address, chainId);
     })
   }
 
-  async function retrieveDestination(address) {
-    return retrieveWarehouse(address).then(async (warehouse) => {
+  async function retrieveDestination(address, chainId) {
+    return retrieveWarehouse(address, chainId).then(async (warehouse) => {
       if (warehouse.isActive == true) return warehouse;
-      else return retrieveStore(address);
+      else return retrieveStore(address, chainId);
     })
   }
 

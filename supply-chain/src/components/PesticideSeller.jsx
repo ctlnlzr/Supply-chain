@@ -25,7 +25,7 @@ export default function PesticideSeller(props) {
 
   async function _retrieveStimulateEvents() {
     const contractEvents = await retrieveStimulateEventsByAddress(props.address, props.chainId);
-    const enhancedEvents = await enhanceStimulateEvents(contractEvents);
+    const enhancedEvents = await enhanceStimulateEvents(contractEvents, props.chainId);
 
     setEvents(enhancedEvents);
   }
