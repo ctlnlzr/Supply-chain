@@ -24,7 +24,7 @@ export default function Warehouse(props) {
   const [events, setEvents] = useState([]);
 
   async function _retrieveStoreEvents() {
-    const contractEvents = await retrieveStoreEventsByAddress(props.address);
+    const contractEvents = await retrieveStoreEventsByAddress(props.address, props.chainId);
     const enhancedEvents = await enhanceStoringEvents(contractEvents);
 
     setEvents(enhancedEvents);

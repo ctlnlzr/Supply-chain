@@ -25,11 +25,9 @@ export default function SeedSeller(props) {
   const [events, setEvents] = useState([]);
 
   async function _retrieveBuySeedsEvents() {
-    const contractEvents = await retrieveBuySeedsEventsByAddress(props.address);
-    console.log(contractEvents);
-    
+    const contractEvents = await retrieveBuySeedsEventsByAddress(props.address, props.chainId);    
     const enhancedEvents = await enhanceBuySeedsEvents(contractEvents);
-    console.log(enhancedEvents);
+    
     setEvents(enhancedEvents);
   }
 

@@ -50,19 +50,19 @@ function App(props) {
   const [wallet, setWallet] = useState(initialState);
   const [role, setRole] = useState("CLIENT");
 
-
   useEffect(() => {
     const refreshAccounts = (accounts) => {
       if (accounts.length > 0) {
         updateWallet(accounts);
-        refreshRole(accounts)
       } else {
         setWallet(initialState);
       }
     };
 
-    const refreshChain = (chainId) => {
-      setWallet((wallet) => ({...wallet, chainId}));
+    const refreshChain = async (chainId) => {
+      setWallet((wallet) => ({ ...wallet, chainId }));
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      refreshAccounts(accounts);
     };
 
     const getProvider = async () => {
@@ -71,7 +71,7 @@ function App(props) {
 
       if (provider) {
         const accounts = await window.ethereum.request({method: "eth_accounts"});
-        refreshAccounts(accounts);  
+        refreshAccounts(accounts);
 
         window.ethereum.on("accountsChanged", refreshAccounts);
         window.ethereum.on("chainChanged", refreshChain);
@@ -88,21 +88,23 @@ function App(props) {
   const updateWallet = async (accounts) => {
     const balance = formatBalance(await window.ethereum.request({method: "eth_getBalance", params: [accounts[0], "latest"],}));
     const chainId = await window.ethereum.request({method: "eth_chainId",});
-  
+
     setWallet({accounts, balance, chainId});
+    refreshRole(accounts, chainId);
   };
 
   
-  const refreshRole = async (accounts) => {
-    if(accounts[0] == undefined) setRole("CLIENT"); 
+  const refreshRole = async (accounts, chainId) => {
+    if(accounts[0] == undefined || chainId == undefined) {
+      setRole("CLIENT"); 
+    }
     else {
-      const currentRole = await getUserRole(accounts[0]);
+      const currentRole = await getUserRole(accounts[0], chainId);
       setRole(currentRole);
     }
   }
 
   const handlerConnect = async () => {
-    console.log("connect to metamask");
     let accounts = await window.ethereum.request({method: "eth_requestAccounts", });
     updateWallet(accounts);
   }
@@ -133,14 +135,14 @@ function App(props) {
           }}
         >
           <Box sx={{ gridArea: 'main',}}>
-            {role === "PESTICIDE_SELLER" && <PesticideSeller address={wallet.accounts[0]}/>}
-            {role === "ADMINISTRATOR" && <Administrator address={wallet.accounts[0]}/>}
-            {role === "DISTRIBUTER" && <Distributer address={wallet.accounts[0]}/>}            
-            {role === "SEED_SELLER" && <SeedSeller address={wallet.accounts[0]}/>}
-            {role === "WAREHOUSE" && <Warehouse address={wallet.accounts[0]}/>}
-            {role === "FARMER" && <Farmer address={wallet.accounts[0]}/>}
-            {role === "CLIENT" && <Client address={wallet.accounts[0]}/>}
-            {role === "STORE" && <Store address={wallet.accounts[0]}/>}
+            {role === "PESTICIDE_SELLER" && <PesticideSeller address={wallet.accounts[0]} chainId={wallet.chainId}/>}
+            {role === "ADMINISTRATOR" && <Administrator address={wallet.accounts[0]} chainId={wallet.chainId}/>}
+            {role === "DISTRIBUTER" && <Distributer address={wallet.accounts[0]} chainId={wallet.chainId}/>}            
+            {role === "SEED_SELLER" && <SeedSeller address={wallet.accounts[0]} chainId={wallet.chainId}/>}
+            {role === "WAREHOUSE" && <Warehouse address={wallet.accounts[0]} chainId={wallet.chainId}/>}
+            {role === "FARMER" && <Farmer address={wallet.accounts[0]} chainId={wallet.chainId}/>}
+            {role === "CLIENT" && <Client address={wallet.accounts[0]} chainId={wallet.chainId}/>}
+            {role === "STORE" && <Store address={wallet.accounts[0]} chainId={wallet.chainId}/>}
            </Box>
         </Box>
       <Container sx={{display:"flex", justifyContent: "center", alignItems:"center", height: "100%", width: "100%"}}>

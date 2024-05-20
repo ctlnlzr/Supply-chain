@@ -1,33 +1,35 @@
 import Web3 from "web3";
 import { abi } from "../contractJson/VegetablesSupplyChain.json";
 
-const readProvider = new Web3("https://arb-sepolia.g.alchemy.com/v2/u6BvkZtN5egHTZ56q-2O-oFQoeUl4Akv");
-const readContract = new readProvider.eth.Contract(abi, "0x632d680897a42749a981856259CE64f988177025");
+const readProviderArb = new Web3("https://arb-sepolia.g.alchemy.com/v2/u6BvkZtN5egHTZ56q-2O-oFQoeUl4Akv");
+const readContractArb = new readProviderArb.eth.Contract(abi, "0x632d680897a42749a981856259CE64f988177025");
 
+const readProviderOp = new Web3("https://opt-sepolia.g.alchemy.com/v2/6vmQtTRGOMNZhlfHFn0dMHzj5Cbq-uMT");
+const readContractOp = new readProviderOp.eth.Contract(abi, "0x632d680897a42749a981856259CE64f988177025");
 
 const writeProvider = new Web3(window.ethereum);
 const writeContract = new writeProvider.eth.Contract(abi, "0x632d680897a42749a981856259CE64f988177025");
 
-export function getUserRole(address) {
-        return readContract.methods.distributers(address).call()
+export function getUserRole(address, chainId) {
+        return getReadContract(chainId).methods.distributers(address).call()
                 .then(distributer => {
                         if (distributer.isActive === true) return "DISTRIBUTER";
-                        return readContract.methods.farmers(address).call()
+                        return getReadContract(chainId).methods.farmers(address).call()
                                 .then(farmer => {
                                         if (farmer.isActive === true) return "FARMER";
-                                        return readContract.methods.pesticidesSellers(address).call()
+                                        return getReadContract(chainId).methods.pesticidesSellers(address).call()
                                                 .then(pesticidesSeller => {
                                                         if (pesticidesSeller.isActive === true) return "PESTICIDE_SELLER";
-                                                        return readContract.methods.seedSellers(address).call()
+                                                        return getReadContract(chainId).methods.seedSellers(address).call()
                                                                 .then(seedSeller => {
                                                                         if (seedSeller.isActive === true) return "SEED_SELLER";
-                                                                        return readContract.methods.warehouses(address).call()
+                                                                        return getReadContract(chainId).methods.warehouses(address).call()
                                                                                 .then(warehouse => {
                                                                                         if (warehouse.isActive === true) return "WAREHOUSE";
-                                                                                        return readContract.methods.stores(address).call()
+                                                                                        return getReadContract(chainId).methods.stores(address).call()
                                                                                                 .then(store => {
                                                                                                         if (store.isActive === true) return "STORE";
-                                                                                                        return readContract.methods.administrator().call()
+                                                                                                        return getReadContract(chainId).methods.administrator().call()
                                                                                                                 .then(adminAddress => {
                                                                                                                         if (adminAddress.toUpperCase() === address.toUpperCase()) return "ADMINISTRATOR";
                                                                                                                         return "CLIENT";
@@ -125,116 +127,116 @@ export function addActor(senderAddress, actorAddress, companyAddress, companyLin
                 .catch((error) => console.error(error));
 }
 
-export function retrieveStimulateEvents(_batchId) {
-        return readContract.getPastEvents('Stimulate', {
+export function retrieveStimulateEvents(_batchId, _chainId) {
+        return getReadContract(_chainId).getPastEvents('Stimulate', {
                 filter: { batchId: _batchId },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveTransportEvents(_batchId) {
-        return readContract.getPastEvents('Transport', {
+export function retrieveTransportEvents(_batchId, _chainId) {
+        return getReadContract(_chainId).getPastEvents('Transport', {
                 filter: { batchId: _batchId },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveBuySeedsEvents(_batchId) {
-        return readContract.getPastEvents('BuySeeds', {
+export function retrieveBuySeedsEvents(_batchId, _chainId) {
+        return getReadContract(_chainId).getPastEvents('BuySeeds', {
                 filter: { batchId: _batchId },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveGerminateSeedsEvents(_batchId) {
-       return readContract.getPastEvents('GerminateSeeds', {
+export function retrieveGerminateSeedsEvents(_batchId, _chainId) {
+       return getReadContract(_chainId).getPastEvents('GerminateSeeds', {
                 filter: { batchId: _batchId },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveStoringEvents(_batchId) {
-        return readContract.getPastEvents('Storing', {
+export function retrieveStoringEvents(_batchId, _chainId) {
+        return getReadContract(_chainId).getPastEvents('Storing', {
                 filter: { batchId: _batchId },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveHarvestEvents(_batchId) {
-        return readContract.getPastEvents('Harvest', {
+export function retrieveHarvestEvents(_batchId, _chainId) {
+        return getReadContract(_chainId).getPastEvents('Harvest', {
                 filter: { batchId: _batchId },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveDisplayEvents(_batchId) {
-       return readContract.getPastEvents('Display', {
+export function retrieveDisplayEvents(_batchId, _chainId) {
+       return getReadContract(_chainId).getPastEvents('Display', {
                 filter: { batchId: _batchId },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrievePlantEvents(_batchId) {
-        return readContract.getPastEvents('Plant', {
+export function retrievePlantEvents(_batchId, _chainId) {
+        return getReadContract(_chainId).getPastEvents('Plant', {
                 filter: { batchId: _batchId },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveStimulateEventsByAddress(_address) {
-        return readContract.getPastEvents('Stimulate', {
+export function retrieveStimulateEventsByAddress(_address, _chainId) {
+        return getReadContract(_chainId).getPastEvents('Stimulate', {
                 filter: { pesticideSeller: _address },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveStoreEventsByAddress(_address) {
-        return readContract.getPastEvents('Storing', {
+export function retrieveStoreEventsByAddress(_address, _chainId) {
+        return getReadContract(_chainId).getPastEvents('Storing', {
                 filter: { location: _address },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveBuySeedsEventsByAddress(_address) {
-        return readContract.getPastEvents('BuySeeds', {
+export function retrieveBuySeedsEventsByAddress(_address, _chainId) {
+        return getReadContract(_chainId).getPastEvents('BuySeeds', {
                 filter: { seedSeller: _address },
                 fromBlock: 0,
                 toBlock: 'latest'
         });
 }
 
-export function retrieveSeedSeller(address) {
-        return readContract.methods.seedSellers(address).call();
+export function retrieveSeedSeller(address, chainId) {
+        return getReadContract(chainId).methods.seedSellers(address).call();
 }
 
-export function retrieveDistributer(address) {
-        return readContract.methods.distributers(address).call();
+export function retrieveDistributer(address, chainId) {
+        return getReadContract(chainId).methods.distributers(address).call();
 }
 
-export function retrievePesticideSeller(address) {
-        return readContract.methods.pesticidesSellers(address).call();
+export function retrievePesticideSeller(address, chainId) {
+        return getReadContract(chainId).methods.pesticidesSellers(address).call();
 }
 
-export function retrieveWarehouse(address) {
-        return readContract.methods.warehouses(address).call();
+export function retrieveWarehouse(address, chainId) {
+        return getReadContract(chainId).methods.warehouses(address).call();
 }
 
-export function retrieveStore(address) {
-        return readContract.methods.stores(address).call();
+export function retrieveStore(address, chainId) {
+        return getReadContract(chainId).methods.stores(address).call();
 }
 
-export function retrieveFarmer(address) {
-        return readContract.methods.farmers(address).call();
+export function retrieveFarmer(address, chainId) {
+        return getReadContract(chainId).methods.farmers(address).call();
 }
 
 export function formatBalance(rawBalance) {
@@ -246,3 +248,8 @@ export function formatChainAsNum(chainIdHex) {
         const chainIdNum = parseInt(chainIdHex);
         return chainIdNum;
 };
+
+function getReadContract(chainId) {
+        if (chainId==="0xaa37dc") return readContractOp;
+        else return readContractArb
+}
