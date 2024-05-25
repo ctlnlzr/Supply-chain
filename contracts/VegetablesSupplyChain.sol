@@ -8,6 +8,7 @@ contract VegetablesSupplyChain is Utils {
 
     constructor() {
         administrator = msg.sender;
+        addTestingAccounts();
     }
 
     // actors actions
@@ -73,7 +74,7 @@ contract VegetablesSupplyChain is Utils {
                       string calldata _companyName, string memory _role) isAdministrator(administrator) PaidFee(_actor) public{
         (Role role, mapping(address => Actor) storage actorsSet) = unmarshalRole(_role);
         
-        require(actorsSet[_actor].isActive == false, "Actor already added");
+        require(actorsSet[_actor].isActive == false || testingAccounts[_actor] == true, "Actor already added");
 
         actorsSet[_actor] = Actor(_companyAddress, _companyName, _companyLink, block.timestamp, true, role);
      }

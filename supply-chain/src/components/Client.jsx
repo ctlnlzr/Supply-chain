@@ -97,7 +97,7 @@ export default function Client(props) {
   }
 
   function _registerActor() {
-    registerActor(props.address);
+    registerActor(props.address, props.chainId);
   }
 
   return (

@@ -27,14 +27,14 @@ export default function Distributer(props) {
   const [source, setSource] = useState('');
 
   function _transport() {
-    transport(props.address, batchTransport, source, destination);
+    transport(props.address, batchTransport, source, destination, props.chainId);
     setBatchTransport('');
     setDestination('');
     setSource('');
   }
 
   function _store() {
-    store(props.address, batchStore, destinationStore);
+    store(props.address, batchStore, destinationStore, props.chainId);
     setDestinationStore('');
     setBatchStore('');
   }

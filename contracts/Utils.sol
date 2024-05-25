@@ -30,6 +30,8 @@ contract Utils {
     mapping(address => Actor) public farmers;
     mapping(address => Actor) public stores;
 
+    mapping(address => bool) public testingAccounts;
+
     mapping(uint => PlantBatch) public plantBatches;
 
     mapping(address => uint) public actorFee;
@@ -132,7 +134,7 @@ contract Utils {
 
     modifier ValidRegistration() {
         require(msg.value > 0, "Registration fee must not be 0");
-        require(actorFee[msg.sender]==0, "Registration can be done once per actor");
+        require(actorFee[msg.sender]==0 || testingAccounts[msg.sender] == true, "Registration can be done once per actor");
 
         _;
     }
@@ -172,5 +174,18 @@ contract Utils {
         }
 
         revert("Received Invalid Role");
+    }
+
+    function addTestingAccounts() internal {
+        testingAccounts[address(0x77ec9296D5B62c496F23e72F15d91D77bEbf1EBD)] = true;
+        testingAccounts[address(0x1864aE84dBD93C94dee4B1ec909E80d58c382AC5)] = true;
+        testingAccounts[address(0xefc1F110e7Cc9230873bb534E63A213df39B6700)] = true;
+        testingAccounts[address(0x4d664138565579534965F8FFe859648421E0c400)] = true;
+        testingAccounts[address(0xa18fAcCc459bb5a3B4746C5D129d3433d995e1a5)] = true;
+        testingAccounts[address(0x8d0314db673ea07C10478bbB3294d79B0A38C3f5)] = true;
+        testingAccounts[address(0xf6daD103eF8EfCA36d6a753a2054501BeAfC9546)] = true;
+        testingAccounts[address(0xB78A5508E77b7055baBF6A066B9822E5B4d61A35)] = true;
+        testingAccounts[address(0xC9E17429BE795477234AcB0e0148fCc0C26E3d29)] = true;
+        testingAccounts[address(0x0557a232d5f40be91cCc4e508573931a8869946d)] = true;
     }
 }

@@ -2,13 +2,14 @@ import Web3 from "web3";
 import { abi } from "../contractJson/VegetablesSupplyChain.json";
 
 const readProviderArb = new Web3("https://arb-sepolia.g.alchemy.com/v2/u6BvkZtN5egHTZ56q-2O-oFQoeUl4Akv");
-const readContractArb = new readProviderArb.eth.Contract(abi, "0x632d680897a42749a981856259CE64f988177025");
+const readContractArb = new readProviderArb.eth.Contract(abi, "0x33A539E2469C8d3421B3Ff29cc7b7dE1e695eBfE");
 
 const readProviderOp = new Web3("https://opt-sepolia.g.alchemy.com/v2/6vmQtTRGOMNZhlfHFn0dMHzj5Cbq-uMT");
-const readContractOp = new readProviderOp.eth.Contract(abi, "0x632d680897a42749a981856259CE64f988177025");
+const readContractOp = new readProviderOp.eth.Contract(abi, "0xfacCEe15674f28533b71cb45EEf7909d0297cA29");
 
 const writeProvider = new Web3(window.ethereum);
-const writeContract = new writeProvider.eth.Contract(abi, "0x632d680897a42749a981856259CE64f988177025");
+const writeContractArb = new writeProvider.eth.Contract(abi, "0x33A539E2469C8d3421B3Ff29cc7b7dE1e695eBfE");
+const writeContractOp = new writeProvider.eth.Contract(abi, "0xfacCEe15674f28533b71cb45EEf7909d0297cA29");
 
 export function getUserRole(address, chainId) {
         return getReadContract(chainId).methods.distributers(address).call()
@@ -45,64 +46,64 @@ export function getUserRole(address, chainId) {
                 });
 }
 
-export function buySeeds(senderAddress, seedSellerAddress, plantType) {
-        writeContract.methods.buySeeds(seedSellerAddress, plantType)
+export function buySeeds(senderAddress, seedSellerAddress, plantType, chainId) {
+        getWriteContract(chainId).methods.buySeeds(seedSellerAddress, plantType)
                 .send({ from: senderAddress })
                 .then(() => { console.log("BuySeeds succeeded"); return "success"; })
                 .catch((error) => console.error(error));
 }
 
-export function germinateSeeds(senderAddress, batchId) {
-        writeContract.methods.germinateSeeds(batchId)
+export function germinateSeeds(senderAddress, batchId, chainId) {
+        getWriteContract(chainId).methods.germinateSeeds(batchId)
                 .send({ from: senderAddress })
                 .then(() => { console.log("Germinate Seeds succeeded"); return "success"; })
                 .catch((error) => console.error(error));
 }
 
-export function plant(senderAddress, batchId) {
-        writeContract.methods.plant(batchId)
+export function plant(senderAddress, batchId, chainId) {
+        getWriteContract(chainId).methods.plant(batchId)
                 .send({ from: senderAddress })
                 .then(() => { console.log("Plant succeeded"); return "success"; })
                 .catch((error) => console.error(error));
 }
 
-export function stimulate(senderAddress, batchId, pesticideSeller, pesticideType) {
-        writeContract.methods.stimulate(batchId, pesticideSeller, pesticideType)
+export function stimulate(senderAddress, batchId, pesticideSeller, pesticideType, chainId) {
+        getWriteContract(chainId).methods.stimulate(batchId, pesticideSeller, pesticideType)
                 .send({ from: senderAddress })
                 .then(() => { console.log("Stimulate succeeded"); return "success"; })
                 .catch((error) => console.error(error));
 }
 
-export function harvest(senderAddress, batchId) {
-        writeContract.methods.harvest(batchId)
+export function harvest(senderAddress, batchId, chainId) {
+        getWriteContract(chainId).methods.harvest(batchId)
                 .send({ from: senderAddress })
                 .then(() => { console.log("Harvest succeeded"); return "success"; })
                 .catch((error) => console.error(error));
 }
 
-export function transport(senderAddress, batchId, from, to) {
-        writeContract.methods.transport(batchId, from, to)
+export function transport(senderAddress, batchId, from, to, chainId) {
+        getWriteContract(chainId).methods.transport(batchId, from, to)
                 .send({ from: senderAddress })
                 .then(() => { console.log("Transport succeeded"); return "success"; })
                 .catch((error) => console.error(error));
 }
 
-export function store(senderAddress, batchId, location) {
-        writeContract.methods.store(batchId, location)
+export function store(senderAddress, batchId, location, chainId) {
+        getWriteContract(chainId).methods.store(batchId, location)
                 .send({ from: senderAddress })
                 .then(() => { console.log("Store succeeded"); return "success"; })
                 .catch((error) => console.error(error));
 }
 
-export function displayVegetables(senderAddress, batchId) {
-        writeContract.methods.displayVegetables(batchId)
+export function displayVegetables(senderAddress, batchId, chainId) {
+        getWriteContract(chainId).methods.displayVegetables(batchId)
                 .send({ from: senderAddress })
                 .then(() => { console.log("DisplayVegetables succeeded"); return "success"; })
                 .catch((error) => console.error(error));
 }
 
-export function registerActor(actorAddress) {
-        writeContract.methods.registerActor().send({
+export function registerActor(actorAddress, chainId) {
+        getWriteContract(chainId).methods.registerActor().send({
                 from: actorAddress,
                 value: Web3.utils.toWei('0.001', 'ether'),
         })
@@ -120,8 +121,8 @@ export function registerActor(actorAddress) {
                 });
 }
 
-export function addActor(senderAddress, actorAddress, companyAddress, companyLink, companyName, role) {
-        writeContract.methods.addActor(actorAddress, companyAddress, companyLink, companyName, role)
+export function addActor(senderAddress, actorAddress, companyAddress, companyLink, companyName, role, chainId) {
+        getWriteContract(chainId).methods.addActor(actorAddress, companyAddress, companyLink, companyName, role)
                 .send({ from: senderAddress })
                 .then(() => { console.log("Registration succeeded"); return "success"; })
                 .catch((error) => console.error(error));
@@ -252,4 +253,9 @@ export function formatChainAsNum(chainIdHex) {
 function getReadContract(chainId) {
         if (chainId==="0xaa37dc") return readContractOp;
         else return readContractArb
+}
+
+function getWriteContract(chainId) {
+        if (chainId==="0xaa37dc") return writeContractOp;
+        else return writeContractArb
 }

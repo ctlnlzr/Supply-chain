@@ -24,7 +24,7 @@ export default function Store(props) {
   const [batchId, setBatchId] = useState(0);
 
   function _displayVegetables() {
-    displayVegetables(props.address, batchId);
+    displayVegetables(props.address, batchId, props.chainId);
     setBatchId(0);
   }
 

@@ -27,7 +27,7 @@ export default function Administrator(props) {
   const [actorRole, setActorRole] = useState('');
 
   function _addActor() {
-    addActor(props.address, actorAddress, companyAddress, companyLink, companyName, actorRole);
+    addActor(props.address, actorAddress, companyAddress, companyLink, companyName, actorRole, props.chainId);
     setCompanyAddress('');
     setActorAddress('');
     setCompanyName('');

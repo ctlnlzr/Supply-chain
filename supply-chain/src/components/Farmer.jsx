@@ -32,30 +32,30 @@ export default function Farmer(props) {
   const [plantId, setPlantId] = useState(0);
 
   function _germinateSeeds() {
-    germinateSeeds(props.address, germinateId);
+    germinateSeeds(props.address, germinateId, props.chainId);
     setGerminateId(0);
   }
 
   function _obtainSeeds() {
-    buySeeds(props.address, seedSeller, plantType);
+    buySeeds(props.address, seedSeller, plantType, props.chainId);
     setSeedSeller('');
     setPlantType('');
   }
 
   function _stimulate() {
-    stimulate(props.address, pesticideId, pesticideSeller, pesticideType);
+    stimulate(props.address, pesticideId, pesticideSeller, pesticideType, props.chainId);
     setPesticideSeller('');
     setPesticideType('');
     setPesticideId(0);
   }
 
   function _harvest() {
-    harvest(props.address, harvestId);
+    harvest(props.address, harvestId, props.chainId);
     setHarvestId(0);
   }
 
   function _plant() {
-    plant(props.address, plantId);
+    plant(props.address, plantId, props.chainId);
     setPlantId(0);
   }
 
