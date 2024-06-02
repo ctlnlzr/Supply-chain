@@ -1,0 +1,44 @@
+{
+    "_comment": "OPTIMISM TRANSACTION RECEIPT",
+    "blockHash": "HexBytes(0xe6e9255338498234f2b145517f6ef334a6021dde6ce63a479846f5c02e17abe3)",
+    "blockNumber": 12718040,
+    "contractAddress": "None",
+    "cumulativeGasUsed": 924592,
+    "effectiveGasPrice": 1200303,
+    "from": "0x77d39851630069F55e4CaACc1DB793c7973e7876",
+    "gasUsed": 25797,
+    "l1BaseFeeScalar": "0x1db0",
+    "l1BlobBaseFee": "0x2fab56ed00e",
+    "l1BlobBaseFeeScalar": "0xd2730",
+    "l1Fee": "0x10158335829ad",
+    "l1GasPrice": "0xb13f91676",
+    "l1GasUsed": "0x640",
+    "logs": [],
+    "logsBloom": "HexBytes()",
+    "status": 0,
+    "to": "0xfacCEe15674f28533b71cb45EEf7909d0297cA29",
+    "transactionHash": "HexBytes()",
+    "transactionIndex": 3,
+    "type": 0
+}
+
+
+{
+    "_comment": "ARBITRUM TRANSACTION RECEIPT"
+    "blockHash": "HexBytes()",
+    "blockNumber": 50121846,
+    "contractAddress": None,
+    "cumulativeGasUsed": 1290751,
+    "effectiveGasPrice": 100000000,
+    "from": "0x77d39851630069F55e4CaACc1DB793c7973e7876",
+    "gasUsed": 1290751,
+    "gasUsedForL1": "0x134d3a",
+    "l1BlockNumber": "0x5bd480",
+    "logs": [],
+    "logsBloom": "HexBytes()",
+    "status": 0,
+    "to": "0x33A539E2469C8d3421B3Ff29cc7b7dE1e695eBfE",
+    "transactionHash": "HexBytes()",
+    "transactionIndex": 1,
+    "type": 0
+}

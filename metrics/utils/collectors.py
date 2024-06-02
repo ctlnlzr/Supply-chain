@@ -1,17 +1,35 @@
-from datetime import datetime
-from utils.contract_adapters import buy_seeds, germinate_seeds, plant, stimulate, harvest, transport, store, display_vegetables, add_actor, register_actor, get_batch
+import time
 
 
-def buy_seeds_log(transactions_details, w3, contract, seed_seller, farmer):
-    transactions_details['buy_seeds']['create_timestamp'].append(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    transactions_details['buy_seeds']['initial_gas_price'].append(w3.eth.gas_price)
+def get_gas_used_for_l1(transaction_receipt):
+    return int(transaction_receipt['gasUsedForL1'], 16) if 'gasUsedForL1' in transaction_receipt.keys() else int(transaction_receipt['l1GasUsed'], 16)
 
-    raw_transaction = buy_seeds(w3, contract, seed_seller, farmer)
+def get_l1_blob_base_fee_scalar(transaction_receipt):
+    return int(transaction_receipt['l1BlobBaseFeeScalar'], 16) if 'l1BlobBaseFeeScalar' in transaction_receipt.keys() else -1
 
-    transaction_receipt = w3.eth.get_transaction_receipt(raw_transaction)
-    transactions_details['buy_seeds']['first_confirmation_timestamp'].append(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    transactions_details['buy_seeds']['gas_used'].append(transaction_receipt['gasUsed'])
-    transactions_details['buy_seeds']['cumulative_gas_used'].append(transaction_receipt['cumulativeGasUsed'])
-    transactions_details['buy_seeds']['effective_gas_price'].append(transaction_receipt['effectiveGasPrice'])
-    transactions_details['buy_seeds']['gas_used_for_l1'].append(transaction_receipt['gasUsedForL1'])
-    transactions_details['buy_seeds']['status'].append(transaction_receipt['status'])
+
+def get_l1_base_fee_scalar(transaction_receipt):
+    return int(transaction_receipt['l1BaseFeeScalar'], 16) if 'l1BaseFeeScalar' in transaction_receipt.keys() else -1
+
+
+def get_l1_blob_base_fee(transaction_receipt):
+    return int(transaction_receipt['l1BlobBaseFee'], 16) if 'l1BlobBaseFee' in transaction_receipt.keys() else -1
+
+
+def get_l1_gas_price(transaction_receipt, w3_sepolia):
+    return int(transaction_receipt['l1GasPrice'], 16) if 'l1GasPrice' in transaction_receipt.keys() else w3_sepolia.eth.gas_price
+
+
+def get_l1_fee(transaction_receipt):
+    return int(transaction_receipt['l1Fee'], 16) if 'l1Fee' in transaction_receipt.keys() else -1
+
+
+def get_receipt(w3, raw_transaction):
+    while True:
+        try:
+            transaction_receipt = w3.eth.get_transaction_receipt(raw_transaction)
+        except:
+            time.sleep(0.5)
+        else:
+            break
+    return transaction_receipt
