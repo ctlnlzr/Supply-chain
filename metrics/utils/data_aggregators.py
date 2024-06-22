@@ -121,10 +121,10 @@ def compute_soft_confirmation_duration(creation_timestamp, soft_comparation_time
     return soft_comparation_duration
 
 
-def compute_l1_data_fee_arbitrum(gas_used_on_l1, gas_price_on_l1):
+def compute_gas_used_on_rollup(gas_used, gas_used_on_l1):
     l1_data_fee = []
     for i in range(0, 100):
-        l1_data_fee.append(gas_used_on_l1[i] * gas_price_on_l1[i])
+        l1_data_fee.append(gas_used[i] - gas_used_on_l1[i])
     return l1_data_fee
 
 
@@ -146,6 +146,3 @@ def extract_transaction_price_usd(transaction_name, chain):
             if row[15] == transaction[transaction_name][chain]['transaction_name']:
                 price_usd.append(float(row[11]))
     return price_usd
-
-
-# print(extract_transaction_price_eth("add_actor", "op"))

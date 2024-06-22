@@ -19,7 +19,7 @@ seed_seller = get_seed_seller(rollup)
 store_manager = get_store(rollup)
 farmer = get_farmer(rollup)
 
-for i in range(106, 206):
+for i in range(102, 202):
     # buy seeds
     transactions_details['buy_seeds']['create_timestamp'].append(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     transactions_details['buy_seeds']['initial_gas_price'].append(w3.eth.gas_price)
@@ -205,52 +205,4 @@ for i in range(1, 101):
 
 
 persist_data(transactions_details, rollup)
-# print(w3_sepolia.eth.gas_price)
-
-# transaction_receipt = get_receipt(w3, germinate_seeds(w3, contract, 2, farmer))
-# print(transaction_receipt)
-
-# transaction_receipt = get_receipt(w3, plant(w3, contract, 2, farmer))
-# print(transaction_receipt)
-
-
-# transaction_receipt = get_receipt(w3, harvest(w3, contract, 2, farmer))
-# print(transaction_receipt)
-
-
-# print(get_batch(100, contract))
-
-# transaction_receipt_1 = get_receipt(w3, transport(w3, contract, 2, distributer, farmer, store_manager))
-# print(transaction_receipt_1)
-
-# transaction_receipt_2 = get_receipt(w3, transport(w3, contract, 2, distributer, farmer, store_manager))
-# print(transaction_receipt_2)
-
-
-# transaction_receipt_3 = get_receipt(w3, transport(w3, contract, 2, distributer, farmer, store_manager))
-# print(transaction_receipt_3)
-
-
-# transaction_receipt_4 = get_receipt(w3, transport(w3, contract, 2, distributer, farmer, store_manager))
-# print(transaction_receipt_4)
-
-
-# transaction_receipt_5 = get_receipt(w3, transport(w3, contract, 2, distributer, farmer, store_manager))
-# print(transaction_receipt_5)
-
-
-# transaction_receipt_6 = get_receipt(w3, transport(w3, contract, 2, distributer, farmer, store_manager))
-# print(transaction_receipt_6)
-
-
-# print(transaction_receipt_1['gasUsedForL1'])
-# print(transaction_receipt_2['gasUsedForL1'])
-# print(transaction_receipt_3['gasUsedForL1'])
-# print(transaction_receipt_4['gasUsedForL1'])
-# print(transaction_receipt_5['gasUsedForL1'])
-# print(transaction_receipt_6['gasUsedForL1'])
-
-
-for i in range(1,20):
-    transaction_receipt_6 = get_receipt(w3, transport(w3, contract, 2, distributer, farmer, store_manager))
-    print(transaction_receipt_6['gasUsedForL1'])
+# print(get_batch(101, contract))

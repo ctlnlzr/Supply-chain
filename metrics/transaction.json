@@ -24,7 +24,7 @@
 
 
 {
-    "_comment": "ARBITRUM TRANSACTION RECEIPT"
+    "_comment": "ARBITRUM TRANSACTION RECEIPT",
     "blockHash": "HexBytes()",
     "blockNumber": 50121846,
     "contractAddress": None,
@@ -41,4 +41,19 @@
     "transactionHash": "HexBytes()",
     "transactionIndex": 1,
     "type": 0
+}
+
+{
+    "_comment": "Fields interpretation",
+    "blockHash": "String, 32 Bytes - hash of the block where this transaction was in.",
+    "blockNumber": "Number - block number where this transaction was in.",
+    "transactionHash": "String, 32 Bytes - hash of the transaction.",
+    "transactionIndex": "Number - integer of the transactions index position in the block.",
+    "from": "String, 20 Bytes - address of the sender.",
+    "to": "String, 20 Bytes - address of the receiver. null when its a contract creation transaction.",
+    "cumulativeGasUsed": "Number - The total amount of gas used when this transaction was executed in the block.",
+    "gasUsed": "Number - The amount of gas used by this specific transaction alone.",
+    "status": "String - '0x0' indicates transaction failure , '0x1' indicates transaction succeeded.",
+    "contractAddress": "String - 20 Bytes - The contract address created, if the transaction was a contract creation, otherwise null.",
+    "logs": "Array - Array of log objects, which this transaction generated."
 }
